@@ -1,0 +1,59 @@
+<ion-content [fullscreen]="true" class="login-content">
+
+  <div class="login-container">
+
+    <div class="logo">
+      <div class="logo-icon">R&R</div>
+
+      <h1>R Y R SÁNCHEZ</h1>
+
+      <p>Sistema de Gestión de Préstamos</p>
+    </div>
+
+    <div class="login-card">
+
+      <h2>Bienvenido</h2>
+
+      <p class="subtitle">
+        Ingresa tus credenciales
+      </p>
+
+      <ion-item lines="none" class="input-item">
+        <ion-input
+          label="Usuario"
+          labelPlacement="stacked"
+          placeholder="Escribe tu usuario"
+          [(ngModel)]="usuario">
+        </ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-item">
+        <ion-input
+          label="Contraseña"
+          labelPlacement="stacked"
+          type="password"
+          placeholder="Escribe tu contraseña"
+          [(ngModel)]="contrasena">
+        </ion-input>
+      </ion-item>
+
+      <ion-button
+        expand="block"
+        class="login-button"
+        (click)="iniciarSesion()">
+        INICIAR SESIÓN
+      </ion-button>
+
+      <p class="mensaje" *ngIf="mensaje">
+        {{ mensaje }}
+      </p>
+
+    </div>
+
+    <p class="footer">
+      © 2026 R Y R Sánchez
+    </p>
+
+  </div>
+
+</ion-content>

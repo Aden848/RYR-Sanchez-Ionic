@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar class="barra-superior">
+    <ion-title>R Y R SÁNCHEZ</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="clientes-content">
+
+  <div class="contenedor">
+
+    <h1>Gestión de Clientes</h1>
+    <p class="descripcion">
+      Consulta los clientes registrados en el sistema.
+    </p>
+
+    <ion-searchbar
+      placeholder="Buscar por nombre o código"
+      (ionInput)="buscar($event)">
+    </ion-searchbar>
+
+    <h2>Listado de clientes</h2>
+
+    <ion-card *ngFor="let cliente of clientesFiltrados">
+      <ion-card-content>
+
+        <div class="cliente-info">
+
+          <div>
+            <h3>{{ cliente.nombre }}</h3>
+            <p>{{ cliente.codigo }}</p>
+          </div>
+
+          <ion-badge
+            [color]="cliente.estado === 'Activo' ? 'success' : 'medium'">
+            {{ cliente.estado }}
+          </ion-badge>
+
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+
+    <p *ngIf="clientesFiltrados.length === 0"
+       class="sin-resultados">
+      No se encontraron clientes.
+    </p>
+
+    <ion-button
+      expand="block"
+      class="boton-regresar"
+      (click)="regresar()">
+      VOLVER AL PANEL PRINCIPAL
+    </ion-button>
+
+    <p class="nota">
+      Prototipo académico — Datos ficticios
+    </p>
+
+  </div>
+
+</ion-content>

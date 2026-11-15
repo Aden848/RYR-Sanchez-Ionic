@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar class="barra-superior">
+    <ion-title>R Y R SÁNCHEZ</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="prestamos-content">
+
+  <div class="contenedor">
+
+    <h1>Gestión de Préstamos</h1>
+
+    <p class="descripcion">
+      Consulta el capital, los intereses y el estado
+      de cada préstamo.
+    </p>
+
+    <ion-card *ngFor="let prestamo of prestamos">
+
+      <ion-card-content>
+
+        <div class="encabezado-prestamo">
+          <div>
+            <h2>{{ prestamo.cliente }}</h2>
+            <p>{{ prestamo.codigo }}</p>
+          </div>
+
+          <ion-badge
+            [color]="prestamo.estado === 'Activo' ? 'success' : 'medium'">
+            {{ prestamo.estado }}
+          </ion-badge>
+        </div>
+
+        <div class="detalle">
+          <p>
+            Capital:
+            <strong>{{ formatoMoneda(prestamo.capital) }}</strong>
+          </p>
+
+          <p>
+            Intereses:
+            <strong>{{ formatoMoneda(prestamo.intereses) }}</strong>
+          </p>
+
+          <p class="saldo">
+            Saldo total:
+            <strong>
+              {{ formatoMoneda(prestamo.capital + prestamo.intereses) }}
+            </strong>
+          </p>
+        </div>
+
+      </ion-card-content>
+
+    </ion-card>
+
+    <ion-button
+      expand="block"
+      class="boton-regresar"
+      (click)="regresar()">
+      VOLVER AL PANEL PRINCIPAL
+    </ion-button>
+
+    <p class="nota">
+      Prototipo académico — Datos ficticios
+    </p>
+
+  </div>
+
+</ion-content>

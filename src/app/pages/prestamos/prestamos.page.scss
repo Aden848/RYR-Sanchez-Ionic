@@ -1,0 +1,96 @@
+.barra-superior {
+  --background: #0b1736;
+  --color: white;
+  text-align: center;
+}
+
+.prestamos-content {
+  --background: #f2f4f8;
+}
+
+.contenedor {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px 16px 35px;
+}
+
+h1 {
+  color: #0b1736;
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.descripcion {
+  color: #555;
+  text-align: center;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+ion-card {
+  margin: 0 0 15px;
+  border-radius: 14px;
+}
+
+.encabezado-prestamo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.encabezado-prestamo h2 {
+  color: #0b1736;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.encabezado-prestamo p {
+  color: #666;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+.detalle {
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 1px solid #ddd;
+}
+
+.detalle p {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #444;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.detalle strong {
+  color: #0b1736;
+  text-align: right;
+}
+
+.saldo {
+  border-top: 1px solid #ddd;
+  padding-top: 12px;
+  font-weight: bold;
+}
+
+.boton-regresar {
+  --background: #0b1736;
+  --color: white;
+  --border-radius: 10px;
+  min-height: 48px;
+  margin-top: 25px;
+  font-weight: bold;
+}
+
+.nota {
+  color: #666;
+  text-align: center;
+  font-size: 12px;
+  margin-top: 25px;
+}

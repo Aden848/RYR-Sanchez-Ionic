@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar class="barra-superior">
+    <ion-title>R Y R SÁNCHEZ</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="dashboard-content">
+
+  <div class="dashboard-container">
+
+    <div class="bienvenida">
+      <h1>Panel Principal</h1>
+      <p>Bienvenido al sistema de gestión de préstamos</p>
+    </div>
+
+    <div class="resumen">
+
+      <ion-card>
+        <ion-card-content>
+          <p>Clientes registrados</p>
+          <h2>{{ clientes }}</h2>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-content>
+          <p>Préstamos activos</p>
+          <h2>{{ prestamos }}</h2>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-content>
+          <p>Capital pendiente</p>
+          <h2>{{ capitalPendiente | currency:'DOP':'symbol':'1.0-0' }}</h2>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-content>
+          <p>Intereses pendientes</p>
+          <h2>{{ interesesPendientes | currency:'DOP':'symbol':'1.0-0' }}</h2>
+        </ion-card-content>
+      </ion-card>
+
+    </div>
+
+    <div class="acciones">
+
+      <h2>Acceso rápido</h2>
+
+      <ion-button
+        expand="block"
+        (click)="navegar('/clientes')">
+        CLIENTES
+      </ion-button>
+
+      <ion-button
+        expand="block"
+        (click)="navegar('/prestamos')">
+        PRÉSTAMOS
+      </ion-button>
+
+      <ion-button
+        expand="block"
+        (click)="navegar('/configuracion')">
+        CONFIGURACIÓN
+      </ion-button>
+
+      <ion-button
+        expand="block"
+        fill="outline"
+        class="salir"
+        (click)="cerrarSesion()">
+        CERRAR SESIÓN
+      </ion-button>
+
+    </div>
+
+    <p class="nota">
+      Prototipo académico — Datos de demostración
+    </p>
+
+  </div>
+
+</ion-content>

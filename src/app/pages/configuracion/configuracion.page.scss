@@ -1,0 +1,95 @@
+.barra-superior {
+  --background: #0b1736;
+  --color: #ffffff;
+  text-align: center;
+}
+
+.configuracion-content {
+  --background: #f2f4f8;
+}
+
+.contenedor {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px 16px 35px;
+}
+
+.encabezado {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.encabezado ion-icon {
+  font-size: 55px;
+  color: #d4af37;
+  margin-bottom: 10px;
+}
+
+.encabezado h1 {
+  color: #0b1736;
+  font-size: 26px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.encabezado p {
+  color: #555;
+  font-size: 14px;
+}
+
+ion-card {
+  margin: 0 0 15px;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.opcion {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.opcion ion-icon {
+  color: #d4af37;
+  font-size: 30px;
+  flex-shrink: 0;
+}
+
+.opcion h2 {
+  color: #0b1736;
+  font-size: 17px;
+  font-weight: bold;
+  margin: 0 0 6px;
+}
+
+.opcion p {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+}
+
+.acciones {
+  margin-top: 35px;
+}
+
+.acciones ion-button {
+  --background: #0b1736;
+  --color: #ffffff;
+  --border-radius: 10px;
+
+  min-height: 50px;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.acciones .cerrar-sesion {
+  --background: #b42318;
+  --color: #ffffff;
+}
+
+.nota {
+  color: #666;
+  text-align: center;
+  font-size: 12px;
+  margin-top: 30px;
+}

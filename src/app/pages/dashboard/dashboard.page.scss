@@ -1,0 +1,102 @@
+.barra-superior {
+  --background: #0b1736;
+  --color: #ffffff;
+  text-align: center;
+}
+
+.dashboard-content {
+  --background: #f2f4f8;
+}
+
+.dashboard-container {
+  padding: 24px 16px 35px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.bienvenida {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.bienvenida h1 {
+  color: #0b1736;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.bienvenida p {
+  color: #555;
+  font-size: 14px;
+}
+
+.resumen {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.resumen ion-card {
+  margin: 0;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.resumen ion-card-content {
+  padding: 18px 12px;
+  text-align: center;
+}
+
+.resumen p {
+  color: #555;
+  font-size: 13px;
+}
+
+.resumen h2 {
+  color: #0b1736;
+  font-size: 20px;
+  font-weight: bold;
+  overflow-wrap: anywhere;
+}
+
+.acciones {
+  margin-top: 30px;
+}
+
+.acciones h2 {
+  color: #0b1736;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 18px;
+}
+
+.acciones ion-button {
+  --background: #0b1736;
+  --color: #ffffff;
+  --border-radius: 10px;
+  min-height: 48px;
+  margin-bottom: 14px;
+  font-weight: bold;
+}
+
+.acciones .salir {
+  --background: transparent;
+  --color: #0b1736;
+  --border-color: #0b1736;
+  --border-width: 2px;
+  --border-style: solid;
+  margin-top: 20px;
+}
+
+.nota {
+  text-align: center;
+  color: #666;
+  font-size: 12px;
+  margin-top: 25px;
+}
+
+@media (max-width: 350px) {
+  .resumen {
+    grid-template-columns: 1fr;
+  }
+}

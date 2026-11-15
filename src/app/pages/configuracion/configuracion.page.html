@@ -1,0 +1,103 @@
+<ion-header>
+  <ion-toolbar class="barra-superior">
+    <ion-title>R Y R SÁNCHEZ</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="configuracion-content">
+
+  <div class="contenedor">
+
+    <div class="encabezado">
+      <ion-icon name="settings-outline"></ion-icon>
+
+      <h1>Configuración</h1>
+
+      <p>
+        Información general del sistema
+      </p>
+    </div>
+
+    <ion-card>
+      <ion-card-content>
+
+        <div class="opcion">
+          <ion-icon name="business-outline"></ion-icon>
+
+          <div>
+            <h2>Nombre del negocio</h2>
+            <p>{{ nombreNegocio }}</p>
+          </div>
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-content>
+
+        <div class="opcion">
+          <ion-icon name="person-circle-outline"></ion-icon>
+
+          <div>
+            <h2>Usuario actual</h2>
+            <p>{{ usuario }}</p>
+          </div>
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-content>
+
+        <div class="opcion">
+          <ion-icon name="information-circle-outline"></ion-icon>
+
+          <div>
+            <h2>Versión del sistema</h2>
+            <p>{{ version }}</p>
+          </div>
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+
+    <div class="acciones">
+
+      <ion-button
+        expand="block"
+        (click)="regresar()">
+
+        <ion-icon
+          name="arrow-back-outline"
+          slot="start">
+        </ion-icon>
+
+        VOLVER AL PANEL PRINCIPAL
+
+      </ion-button>
+
+      <ion-button
+        expand="block"
+        class="cerrar-sesion"
+        (click)="cerrarSesion()">
+
+        <ion-icon
+          name="log-out-outline"
+          slot="start">
+        </ion-icon>
+
+        CERRAR SESIÓN
+
+      </ion-button>
+
+    </div>
+
+    <p class="nota">
+      Prototipo académico — Programación de Dispositivos Móviles
+    </p>
+
+  </div>
+
+</ion-content>

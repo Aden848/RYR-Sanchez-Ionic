@@ -1,0 +1,7 @@
+{
+  "name": "ryr-prestamos",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
