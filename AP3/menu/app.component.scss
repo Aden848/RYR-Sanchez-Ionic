@@ -1,0 +1,142 @@
+/* ===== Menú lateral (ion-menu) ===== */
+
+ion-menu {
+  --background: #0b1736;
+  --width: 280px;
+}
+
+ion-split-pane {
+  --side-width: 280px;
+  --side-max-width: 280px;
+  --border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.menu-encabezado {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: calc(24px + var(--ion-safe-area-top, 0px)) 20px 22px;
+  background: #0b1736;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.35);
+}
+
+.menu-logo {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: #d4af37;
+  color: #0b1736;
+  font-weight: bold;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.menu-encabezado h2 {
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.menu-encabezado p {
+  color: #d4af37;
+  font-size: 12px;
+  margin: 4px 0 0;
+}
+
+.menu-contenido {
+  --background: #0b1736;
+}
+
+ion-list {
+  background: transparent;
+  padding: 10px 10px 0;
+}
+
+ion-list-header {
+  --color: rgba(255, 255, 255, 0.55);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  min-height: 34px;
+}
+
+.menu-opcion {
+  --background: transparent;
+  --background-hover: rgba(255, 255, 255, 0.06);
+  --color: #e6e9f2;
+  --border-radius: 10px;
+  --padding-start: 14px;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.menu-opcion ion-icon {
+  color: #9aa6c4;
+  margin-inline-end: 16px;
+}
+
+.menu-opcion ion-badge {
+  --background: rgba(212, 175, 55, 0.2);
+  --color: #d4af37;
+}
+
+.menu-opcion.seleccionado {
+  --background: #d4af37;
+  --color: #0b1736;
+  font-weight: bold;
+}
+
+.menu-opcion.seleccionado ion-icon {
+  color: #0b1736;
+}
+
+.menu-opcion.seleccionado ion-badge {
+  --background: #0b1736;
+  --color: #d4af37;
+}
+
+.menu-inferior {
+  margin-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 12px;
+}
+
+.menu-opcion.salir {
+  --color: #ff8a80;
+}
+
+.menu-opcion.salir ion-icon {
+  color: #ff8a80;
+}
+
+ion-footer {
+  background: #0b1736;
+}
+
+.menu-usuario {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px calc(16px + var(--ion-safe-area-bottom, 0px));
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.menu-usuario ion-icon {
+  font-size: 34px;
+  color: #d4af37;
+}
+
+.menu-usuario strong {
+  display: block;
+  font-size: 14px;
+}
+
+.menu-usuario span {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+}

@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-test('visits the app root url', async ({ page }) => {
+test('muestra la pantalla de inicio de sesión', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('#container')).toContainText('Ready to create an app?');
+  await expect(page.locator('app-home')).toContainText('R Y R SÁNCHEZ');
 });

@@ -1,70 +1,185 @@
 <ion-header>
   <ion-toolbar class="barra-superior">
-    <ion-title>R Y R SÁNCHEZ</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Préstamos</ion-title>
+  </ion-toolbar>
+  <ion-toolbar class="barra-filtros">
+    <ion-segment [value]="filtro" (ionChange)="cambiarFiltro($event)" [scrollable]="true">
+      <ion-segment-button value="todos"><ion-label>Todos</ion-label></ion-segment-button>
+      <ion-segment-button value="Activo"><ion-label>Activos</ion-label></ion-segment-button>
+      <ion-segment-button value="Atrasado"><ion-label>Atrasados</ion-label></ion-segment-button>
+      <ion-segment-button value="Pagado"><ion-label>Pagados</ion-label></ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="prestamos-content">
+  <!-- GESTO 2: Pull-to-refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="refrescar($event)">
+    <ion-refresher-content
+      pullingText="Desliza para actualizar"
+      refreshingSpinner="crescent"
+      refreshingText="Consultando préstamos...">
+    </ion-refresher-content>
+  </ion-refresher>
 
   <div class="contenedor">
+    @if (clienteFiltro) {
+      <ion-chip class="chip-cliente" (click)="quitarFiltroCliente()">
+        <ion-icon name="person-outline"></ion-icon>
+        <ion-label>{{ clienteFiltro }}</ion-label>
+        <ion-icon name="close-circle"></ion-icon>
+      </ion-chip>
+    }
 
-    <h1>Gestión de Préstamos</h1>
+    <!-- Componente: ion-card (una por préstamo) con ion-list adentro -->
+    @for (prestamo of prestamosFiltrados; track prestamo.codigo) {
+      <ion-card appLongPress (longPress)="abrirMenuContextual(prestamo)">
+        <ion-card-header>
+          <div class="encabezado-prestamo">
+            <div>
+              <ion-card-title>{{ prestamo.cliente }}</ion-card-title>
+              <ion-card-subtitle>{{ prestamo.codigo }}</ion-card-subtitle>
+            </div>
+            <ion-badge [color]="colorEstado(prestamo.estado)">{{ prestamo.estado }}</ion-badge>
+          </div>
+        </ion-card-header>
 
-    <p class="descripcion">
-      Consulta el capital, los intereses y el estado
-      de cada préstamo.
-    </p>
-
-    <ion-card *ngFor="let prestamo of prestamos">
-
-      <ion-card-content>
-
-        <div class="encabezado-prestamo">
-          <div>
-            <h2>{{ prestamo.cliente }}</h2>
-            <p>{{ prestamo.codigo }}</p>
+        <ion-card-content>
+          <div class="progreso">
+            <span>Cuotas pagadas: {{ prestamo.cuotasPagadas }} de {{ prestamo.cuotasTotales }}</span>
+            <ion-progress-bar
+              [value]="prestamo.cuotasPagadas / prestamo.cuotasTotales"
+              [color]="colorEstado(prestamo.estado)">
+            </ion-progress-bar>
           </div>
 
-          <ion-badge
-            [color]="prestamo.estado === 'Activo' ? 'success' : 'medium'">
-            {{ prestamo.estado }}
-          </ion-badge>
-        </div>
+          <ion-list lines="inset" class="detalle">
+            <ion-item>
+              <ion-label>Capital</ion-label>
+              <ion-note slot="end">{{ formatoMoneda(prestamo.capital) }}</ion-note>
+            </ion-item>
+            <ion-item>
+              <ion-label>Intereses</ion-label>
+              <ion-note slot="end">{{ formatoMoneda(prestamo.intereses) }}</ion-note>
+            </ion-item>
+            <ion-item lines="none" class="saldo">
+              <ion-label>Saldo total</ion-label>
+              <ion-note slot="end">{{ formatoMoneda(prestamo.capital + prestamo.intereses) }}</ion-note>
+            </ion-item>
+          </ion-list>
 
-        <div class="detalle">
-          <p>
-            Capital:
-            <strong>{{ formatoMoneda(prestamo.capital) }}</strong>
-          </p>
+          <div class="acciones">
+            <ion-button fill="outline" size="small" (click)="abrirPagare(prestamo)">
+              <ion-icon slot="start" name="document-text-outline"></ion-icon>
+              Ver pagaré
+            </ion-button>
+            <ion-button
+              size="small"
+              class="boton-pago"
+              [disabled]="prestamo.estado === 'Pagado'"
+              (click)="registrarPago(prestamo)">
+              <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
+              Registrar pago
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    } @empty {
+      <p class="sin-resultados">No hay préstamos con este filtro.</p>
+    }
 
-          <p>
-            Intereses:
-            <strong>{{ formatoMoneda(prestamo.intereses) }}</strong>
-          </p>
-
-          <p class="saldo">
-            Saldo total:
-            <strong>
-              {{ formatoMoneda(prestamo.capital + prestamo.intereses) }}
-            </strong>
-          </p>
-        </div>
-
-      </ion-card-content>
-
-    </ion-card>
-
-    <ion-button
-      expand="block"
-      class="boton-regresar"
-      (click)="regresar()">
-      VOLVER AL PANEL PRINCIPAL
-    </ion-button>
-
-    <p class="nota">
-      Prototipo académico — Datos ficticios
-    </p>
-
+    <p class="nota">Mantén presionada una tarjeta para ver más opciones · Datos ficticios</p>
   </div>
 
+  <!-- Componente: ion-fab -->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button class="fab-principal" aria-label="Más acciones">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button (click)="alertaNuevoAbierta = true" aria-label="Nuevo préstamo">
+        <ion-icon name="cash-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button (click)="abrirPagare(null)" aria-label="Ver pagaré de ejemplo">
+        <ion-icon name="document-text-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+
+  <!-- GESTO 3: Pinch/Zoom sobre la imagen del pagaré -->
+  <ion-modal [isOpen]="pagareAbierto" (didDismiss)="cerrarPagare()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar class="barra-superior">
+          <ion-title>Pagaré {{ prestamoPagare?.codigo ?? 'de ejemplo' }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="cerrarPagare()" aria-label="Cerrar">
+              <ion-icon slot="icon-only" name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="contenido-pagare" [scrollY]="false">
+        <div class="marco-imagen">
+          <img
+            #zoom="pinchZoom"
+            appPinchZoom
+            [zoomMaximo]="4"
+            (zoomCambio)="nivelZoom = $event"
+            src="assets/img/pagare.svg"
+            alt="Pagaré del préstamo (documento de demostración)" />
+        </div>
+      </ion-content>
+
+      <ion-footer>
+        <ion-toolbar class="barra-zoom">
+          <ion-buttons slot="start">
+            <ion-button (click)="zoom.alejar()" aria-label="Alejar">
+              <ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+          <ion-title size="small">
+            {{ nivelZoom * 100 | number: '1.0-0' }} % · Pellizca con dos dedos · Doble toque
+          </ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="zoom.restablecer()" aria-label="Restablecer">
+              <ion-icon slot="icon-only" name="scan-outline"></ion-icon>
+            </ion-button>
+            <ion-button (click)="zoom.acercar()" aria-label="Acercar">
+              <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-footer>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Menú contextual del long-press -->
+  <ion-action-sheet
+    [isOpen]="menuAbierto"
+    [header]="prestamoSeleccionado ? prestamoSeleccionado.codigo + ' · ' + prestamoSeleccionado.cliente : ''"
+    [buttons]="botonesMenu"
+    (didDismiss)="menuAbierto = false">
+  </ion-action-sheet>
+
+  <ion-alert
+    [isOpen]="alertaNuevoAbierta"
+    header="Nuevo préstamo"
+    subHeader="Interés fijo de 20 % (demostración)"
+    [inputs]="camposNuevo"
+    [buttons]="botonesNuevo"
+    (didDismiss)="alertaNuevoAbierta = false">
+  </ion-alert>
+
+  <ion-toast
+    [isOpen]="toastAbierto"
+    [message]="mensajeToast"
+    [duration]="2000"
+    position="bottom"
+    (didDismiss)="toastAbierto = false">
+  </ion-toast>
 </ion-content>

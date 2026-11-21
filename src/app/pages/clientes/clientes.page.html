@@ -1,61 +1,137 @@
 <ion-header>
   <ion-toolbar class="barra-superior">
-    <ion-title>R Y R SÁNCHEZ</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Clientes</ion-title>
+  </ion-toolbar>
+  <ion-toolbar class="barra-busqueda">
+    <ion-searchbar
+      placeholder="Buscar por nombre o código"
+      [debounce]="150"
+      (ionInput)="buscar($event)">
+    </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="clientes-content">
+  <!-- GESTO 2: Pull-to-refresh. Jalar hacia abajo sincroniza la lista. -->
+  <ion-refresher slot="fixed" (ionRefresh)="refrescar($event)">
+    <ion-refresher-content
+      pullingText="Desliza para sincronizar"
+      refreshingSpinner="crescent"
+      refreshingText="Sincronizando clientes...">
+    </ion-refresher-content>
+  </ion-refresher>
 
   <div class="contenedor">
-
-    <h1>Gestión de Clientes</h1>
-    <p class="descripcion">
-      Consulta los clientes registrados en el sistema.
-    </p>
-
-    <ion-searchbar
-      placeholder="Buscar por nombre o código"
-      (ionInput)="buscar($event)">
-    </ion-searchbar>
-
-    <h2>Listado de clientes</h2>
-
-    <ion-card *ngFor="let cliente of clientesFiltrados">
+    <!-- Componente: ion-card (resumen + ayuda de gestos) -->
+    <ion-card class="tarjeta-resumen">
       <ion-card-content>
-
-        <div class="cliente-info">
-
+        <div class="resumen-fila">
           <div>
-            <h3>{{ cliente.nombre }}</h3>
-            <p>{{ cliente.codigo }}</p>
+            <strong>{{ datos.clientes.length }}</strong>
+            <span>registrados</span>
           </div>
-
-          <ion-badge
-            [color]="cliente.estado === 'Activo' ? 'success' : 'medium'">
-            {{ cliente.estado }}
-          </ion-badge>
-
+          <div>
+            <strong>{{ datos.clientesActivos }}</strong>
+            <span>activos</span>
+          </div>
+          <div>
+            <strong>{{ ultimaActualizacion | date: 'shortTime' }}</strong>
+            <span>última sincronización</span>
+          </div>
         </div>
-
+        <p class="ayuda">
+          <ion-icon name="hand-left-outline"></ion-icon>
+          Desliza un cliente a la izquierda para eliminarlo · Mantén presionado para más opciones
+        </p>
       </ion-card-content>
     </ion-card>
 
-    <p *ngIf="clientesFiltrados.length === 0"
-       class="sin-resultados">
-      No se encontraron clientes.
-    </p>
+    <!-- Componente: ion-list + ion-item-sliding -->
+    <ion-list class="lista-clientes" lines="full">
+      @for (cliente of clientesFiltrados; track cliente.id) {
+        <ion-item-sliding #deslizable>
+          <!-- Deslizar a la DERECHA: llamar -->
+          <ion-item-options side="start">
+            <ion-item-option color="success" [href]="'tel:' + cliente.telefono" (click)="deslizable.close()">
+              <ion-icon slot="top" name="call-outline"></ion-icon>
+              Llamar
+            </ion-item-option>
+          </ion-item-options>
 
-    <ion-button
-      expand="block"
-      class="boton-regresar"
-      (click)="regresar()">
-      VOLVER AL PANEL PRINCIPAL
-    </ion-button>
+          <!-- GESTO 4: long-press sobre el item abre el menú contextual -->
+          <ion-item
+            button
+            detail="false"
+            appLongPress
+            (longPress)="abrirMenuContextual(cliente, deslizable)"
+            (click)="verPrestamos(cliente)">
+            <div slot="start" class="avatar" [class.inactivo]="cliente.estado === 'Inactivo'">
+              {{ iniciales(cliente.nombre) }}
+            </div>
+            <ion-label>
+              <h3>{{ cliente.nombre }}</h3>
+              <p>{{ cliente.codigo }} · {{ cliente.telefono }}</p>
+            </ion-label>
+            <ion-badge slot="end" [color]="cliente.estado === 'Activo' ? 'success' : 'medium'">
+              {{ cliente.estado }}
+            </ion-badge>
+          </ion-item>
 
-    <p class="nota">
-      Prototipo académico — Datos ficticios
-    </p>
+          <!-- GESTO 1: Deslizar a la IZQUIERDA: eliminar (deslizar hasta el final borra directo) -->
+          <ion-item-options side="end" (ionSwipe)="eliminar(cliente)">
+            <ion-item-option color="medium" (click)="cambiarEstado(cliente, deslizable)">
+              <ion-icon slot="top" name="swap-horizontal-outline"></ion-icon>
+              {{ cliente.estado === 'Activo' ? 'Desactivar' : 'Activar' }}
+            </ion-item-option>
+            <ion-item-option color="danger" expandable (click)="eliminar(cliente)">
+              <ion-icon slot="top" name="trash-outline"></ion-icon>
+              Eliminar
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      }
+    </ion-list>
 
+    @if (clientesFiltrados.length === 0) {
+      <p class="sin-resultados">No se encontraron clientes.</p>
+    }
+
+    <p class="nota">Prototipo académico — Datos ficticios</p>
   </div>
 
+  <!-- Componente: ion-fab (agregar cliente) -->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button class="fab-principal" (click)="alertaNuevoAbierta = true" aria-label="Nuevo cliente">
+      <ion-icon name="person-add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <!-- Menú contextual del long-press -->
+  <ion-action-sheet
+    [isOpen]="menuAbierto"
+    [header]="clienteSeleccionado?.nombre ?? ''"
+    [subHeader]="clienteSeleccionado?.codigo ?? ''"
+    [buttons]="botonesMenu"
+    (didDismiss)="menuAbierto = false">
+  </ion-action-sheet>
+
+  <ion-alert
+    [isOpen]="alertaNuevoAbierta"
+    header="Nuevo cliente"
+    [inputs]="camposNuevo"
+    [buttons]="botonesNuevo"
+    (didDismiss)="alertaNuevoAbierta = false">
+  </ion-alert>
+
+  <ion-toast
+    [isOpen]="toast.abierto"
+    [message]="toast.mensaje"
+    [buttons]="toast.botones"
+    [duration]="3500"
+    position="bottom"
+    (didDismiss)="toast.abierto = false">
+  </ion-toast>
 </ion-content>

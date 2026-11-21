@@ -1,43 +1,15 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
-import {
-  IonContent,
-  IonItem,
-  IonInput,
-  IonButton
-} from '@ionic/angular';
+import { AppComponent } from './app.component';
 
-@Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonContent,
-    IonItem,
-    IonInput,
-    IonButton
-  ],
-})
-export class HomePage {
+describe('AppComponent', () => {
+  beforeEach(() => {
+    TestBed.configureTestingModule({ providers: [provideRouter([])] });
+  });
 
-  usuario: string = '';
-  contrasena: string = '';
-  mensaje: string = '';
-
-  iniciarSesion() {
-
-    if (!this.usuario.trim() || !this.contrasena.trim()) {
-      this.mensaje = 'Debes completar todos los campos.';
-      return;
-    }
-
-    this.mensaje = 'Inicio de sesión de demostración.';
-
-  }
-
-}
+  it('should create the app', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    expect(fixture.componentInstance).toBeTruthy();
+  });
+});

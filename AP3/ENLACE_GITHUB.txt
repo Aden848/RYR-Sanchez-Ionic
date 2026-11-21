@@ -1,0 +1,2 @@
+Proyecto: R Y R Sánchez — Sistema de Gestión de Préstamos (Ionic + Angular)
+Repositorio: https://github.com/Aden848/RYR-Sanchez-Ionic

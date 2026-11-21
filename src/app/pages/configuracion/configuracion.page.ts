@@ -10,7 +10,9 @@ import {
   IonCard,
   IonCardContent,
   IonButton,
-  IonIcon
+  IonIcon,
+  IonButtons,
+  IonMenuButton
 } from '@ionic/angular';
 
 import { addIcons } from 'ionicons';
@@ -19,7 +21,6 @@ import {
   businessOutline,
   settingsOutline,
   logOutOutline,
-  arrowBackOutline,
   informationCircleOutline
 } from 'ionicons/icons';
 
@@ -37,7 +38,9 @@ import {
     IonCard,
     IonCardContent,
     IonButton,
-    IonIcon
+    IonIcon,
+    IonButtons,
+    IonMenuButton
   ]
 })
 export class ConfiguracionPage {
@@ -52,18 +55,13 @@ export class ConfiguracionPage {
       businessOutline,
       settingsOutline,
       logOutOutline,
-      arrowBackOutline,
       informationCircleOutline
     });
-  }
-
-  regresar() {
-    this.router.navigateByUrl('/dashboard');
   }
 
   cerrarSesion() {
     // Navegación de demostración.
     // No existe una sesión autenticada real.
-    this.router.navigateByUrl('/home');
+    this.router.navigateByUrl('/home', { replaceUrl: true });
   }
 }

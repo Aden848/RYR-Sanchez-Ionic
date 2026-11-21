@@ -4,30 +4,36 @@
   text-align: center;
 }
 
+.barra-superior ion-menu-button {
+  --color: #d4af37;
+}
+
 .dashboard-content {
   --background: #f2f4f8;
 }
 
 .dashboard-container {
-  padding: 24px 16px 35px;
-  max-width: 600px;
+  padding: 20px 16px 100px;
+  max-width: 700px;
   margin: 0 auto;
 }
 
 .bienvenida {
   text-align: center;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 .bienvenida h1 {
   color: #0b1736;
   font-size: 26px;
   font-weight: bold;
+  margin-bottom: 4px;
 }
 
 .bienvenida p {
   color: #555;
-  font-size: 14px;
+  font-size: 13px;
+  margin: 0;
 }
 
 .resumen {
@@ -43,13 +49,19 @@
 }
 
 .resumen ion-card-content {
-  padding: 18px 12px;
+  padding: 16px 12px;
   text-align: center;
+}
+
+.resumen ion-icon {
+  font-size: 26px;
+  color: #d4af37;
 }
 
 .resumen p {
   color: #555;
   font-size: 13px;
+  margin: 6px 0 4px;
 }
 
 .resumen h2 {
@@ -57,35 +69,35 @@
   font-size: 20px;
   font-weight: bold;
   overflow-wrap: anywhere;
+  margin: 0;
 }
 
-.acciones {
-  margin-top: 30px;
+.tarjeta-lista {
+  margin: 22px 0 0;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.acciones h2 {
+.tarjeta-lista ion-card-title {
   color: #0b1736;
-  font-size: 20px;
+  font-size: 19px;
   font-weight: bold;
-  margin-bottom: 18px;
 }
 
-.acciones ion-button {
+.tarjeta-lista ion-item h3 {
+  color: #0b1736;
+  font-weight: 600;
+}
+
+.fab-principal {
+  --background: #d4af37;
+  --background-activated: #b8962e;
+  --color: #0b1736;
+}
+
+ion-fab-list ion-fab-button {
   --background: #0b1736;
   --color: #ffffff;
-  --border-radius: 10px;
-  min-height: 48px;
-  margin-bottom: 14px;
-  font-weight: bold;
-}
-
-.acciones .salir {
-  --background: transparent;
-  --color: #0b1736;
-  --border-color: #0b1736;
-  --border-width: 2px;
-  --border-style: solid;
-  margin-top: 20px;
 }
 
 .nota {

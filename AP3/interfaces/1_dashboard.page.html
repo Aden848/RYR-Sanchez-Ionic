@@ -1,0 +1,118 @@
+<ion-header>
+  <ion-toolbar class="barra-superior">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>R Y R SÁNCHEZ</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="dashboard-content">
+  <!-- GESTO 2: Pull-to-refresh. Jalar hacia abajo recalcula los totales. -->
+  <ion-refresher slot="fixed" (ionRefresh)="refrescar($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-down-outline"
+      pullingText="Desliza para actualizar"
+      refreshingSpinner="crescent"
+      refreshingText="Actualizando totales...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div class="dashboard-container">
+    <div class="bienvenida">
+      <h1>Panel Principal</h1>
+      <p>Actualizado: {{ ultimaActualizacion | date: 'shortTime' }}</p>
+    </div>
+
+    <!-- Componente: ion-card (resumen) -->
+    <div class="resumen">
+      <ion-card button (click)="navegar('/clientes')">
+        <ion-card-content>
+          <ion-icon name="people-outline"></ion-icon>
+          <p>Clientes activos</p>
+          <h2>{{ datos.clientesActivos }}</h2>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card button (click)="navegar('/prestamos')">
+        <ion-card-content>
+          <ion-icon name="cash-outline"></ion-icon>
+          <p>Préstamos activos</p>
+          <h2>{{ datos.prestamosActivos }}</h2>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-content>
+          <ion-icon name="wallet-outline"></ion-icon>
+          <p>Capital pendiente</p>
+          <h2>{{ datos.capitalPendiente | currency: 'DOP' : 'symbol' : '1.0-0' }}</h2>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-content>
+          <ion-icon name="trending-up-outline"></ion-icon>
+          <p>Intereses pendientes</p>
+          <h2>{{ datos.interesesPendientes | currency: 'DOP' : 'symbol' : '1.0-0' }}</h2>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Componente: ion-list (préstamos que requieren atención) -->
+    <ion-card class="tarjeta-lista">
+      <ion-card-header>
+        <ion-card-title>Préstamos en curso</ion-card-title>
+        <ion-card-subtitle>Toca uno para ver el detalle</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-list lines="full">
+        @for (prestamo of prestamosEnCurso; track prestamo.codigo) {
+          <ion-item button detail="true" (click)="navegar('/prestamos')">
+            <ion-icon
+              slot="start"
+              [name]="prestamo.estado === 'Atrasado' ? 'alert-circle' : 'time-outline'"
+              [color]="prestamo.estado === 'Atrasado' ? 'danger' : 'medium'">
+            </ion-icon>
+            <ion-label>
+              <h3>{{ prestamo.cliente }}</h3>
+              <p>{{ prestamo.codigo }} · Cuota {{ prestamo.cuotasPagadas }}/{{ prestamo.cuotasTotales }}</p>
+            </ion-label>
+            <ion-badge slot="end" [color]="prestamo.estado === 'Atrasado' ? 'danger' : 'success'">
+              {{ prestamo.estado }}
+            </ion-badge>
+          </ion-item>
+        } @empty {
+          <ion-item lines="none">
+            <ion-label class="ion-text-center">No hay préstamos en curso.</ion-label>
+          </ion-item>
+        }
+      </ion-list>
+    </ion-card>
+
+    <p class="nota">Prototipo académico — Datos de demostración</p>
+  </div>
+
+  <!-- Componente: ion-fab (acciones rápidas) -->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button class="fab-principal" aria-label="Acciones rápidas">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button (click)="navegar('/clientes', { nuevo: 'si' })" aria-label="Nuevo cliente">
+        <ion-icon name="person-add-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button (click)="navegar('/prestamos')" aria-label="Ver préstamos">
+        <ion-icon name="cash-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+
+  <ion-toast
+    [isOpen]="toastAbierto"
+    message="Totales actualizados"
+    [duration]="1500"
+    position="bottom"
+    (didDismiss)="toastAbierto = false">
+  </ion-toast>
+</ion-content>

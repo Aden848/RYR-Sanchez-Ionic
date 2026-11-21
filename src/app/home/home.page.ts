@@ -39,7 +39,7 @@ constructor(private router: Router) {}
   this.mensaje = '';
 
   // Navegación de demostración, sin autenticación real
-  this.router.navigateByUrl('/dashboard');
+  this.router.navigateByUrl('/dashboard', { replaceUrl: true });
 }
   
 }

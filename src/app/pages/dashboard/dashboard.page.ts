@@ -1,16 +1,45 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
-
 import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
+  IonBadge,
+  IonButtons,
   IonCard,
   IonCardContent,
-  IonButton
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
+  IonContent,
+  IonFab,
+  IonFabButton,
+  IonFabList,
+  IonHeader,
+  IonIcon,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonMenuButton,
+  IonRefresher,
+  IonRefresherContent,
+  IonTitle,
+  IonToast,
+  IonToolbar,
+  RefresherCustomEvent,
 } from '@ionic/angular';
+import { addIcons } from 'ionicons';
+import {
+  add,
+  alertCircle,
+  arrowDownOutline,
+  cashOutline,
+  peopleOutline,
+  personAddOutline,
+  timeOutline,
+  trendingUpOutline,
+  walletOutline,
+} from 'ionicons/icons';
+
+import { DatosService } from '../../services/datos.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,31 +47,64 @@ import {
   styleUrls: ['./dashboard.page.scss'],
   standalone: true,
   imports: [
-    CommonModule,
+    CurrencyPipe,
+    DatePipe,
     IonHeader,
     IonToolbar,
+    IonButtons,
+    IonMenuButton,
     IonTitle,
     IonContent,
+    IonRefresher,
+    IonRefresherContent,
     IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardSubtitle,
     IonCardContent,
-    IonButton
-  ]
+    IonList,
+    IonItem,
+    IonIcon,
+    IonLabel,
+    IonBadge,
+    IonFab,
+    IonFabButton,
+    IonFabList,
+    IonToast,
+  ],
 })
 export class DashboardPage {
+  ultimaActualizacion = new Date();
+  toastAbierto = false;
 
-  // Datos ficticios para el prototipo académico
-  clientes = 25;
-  prestamos = 18;
-  capitalPendiente = 180000;
-  interesesPendientes = 36000;
-
-  constructor(private router: Router) {}
-
-  navegar(ruta: string) {
-    this.router.navigateByUrl(ruta);
+  constructor(
+    public datos: DatosService,
+    private router: Router,
+  ) {
+    addIcons({
+      add,
+      alertCircle,
+      arrowDownOutline,
+      cashOutline,
+      peopleOutline,
+      personAddOutline,
+      timeOutline,
+      trendingUpOutline,
+      walletOutline,
+    });
   }
 
-  cerrarSesion() {
-    this.router.navigateByUrl('/home');
+  get prestamosEnCurso() {
+    return this.datos.prestamos.filter((p) => p.estado !== 'Pagado');
+  }
+
+  async refrescar(evento: Event): Promise<void> {
+    this.ultimaActualizacion = await this.datos.sincronizar();
+    (evento as RefresherCustomEvent).target.complete();
+    this.toastAbierto = true;
+  }
+
+  navegar(ruta: string, queryParams?: Record<string, string>): void {
+    this.router.navigate([ruta], { queryParams });
   }
 }

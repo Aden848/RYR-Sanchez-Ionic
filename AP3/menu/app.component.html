@@ -1,0 +1,67 @@
+<ion-app>
+  <!--
+    ion-split-pane: en celular el menú se oculta y se abre con el botón ☰
+    o deslizando desde el borde izquierdo. En tablet / pantalla ancha
+    (when="md", ≥ 768px) el menú queda fijo a la izquierda.
+  -->
+  <ion-split-pane contentId="main-content" when="md" [disabled]="!mostrarMenu">
+    <ion-menu contentId="main-content" type="overlay" menuId="principal" [disabled]="!mostrarMenu">
+      <ion-header class="ion-no-border">
+        <div class="menu-encabezado">
+          <div class="menu-logo">R&amp;R</div>
+          <div>
+            <h2>R Y R SÁNCHEZ</h2>
+            <p>Gestión de Préstamos</p>
+          </div>
+        </div>
+      </ion-header>
+
+      <ion-content class="menu-contenido">
+        <ion-list lines="none">
+          <ion-list-header>
+            <ion-label>Menú principal</ion-label>
+          </ion-list-header>
+
+          @for (opcion of opciones; track opcion.url) {
+            <ion-menu-toggle [autoHide]="false">
+              <ion-item
+                button
+                detail="false"
+                routerDirection="root"
+                [routerLink]="opcion.url"
+                routerLinkActive="seleccionado"
+                class="menu-opcion">
+                <ion-icon slot="start" [name]="opcion.icono"></ion-icon>
+                <ion-label>{{ opcion.titulo }}</ion-label>
+                @if (opcion.contador) {
+                  <ion-badge slot="end">{{ opcion.contador() }}</ion-badge>
+                }
+              </ion-item>
+            </ion-menu-toggle>
+          }
+        </ion-list>
+
+        <ion-list lines="none" class="menu-inferior">
+          <ion-menu-toggle [autoHide]="false">
+            <ion-item button detail="false" class="menu-opcion salir" (click)="cerrarSesion()">
+              <ion-icon slot="start" name="log-out-outline"></ion-icon>
+              <ion-label>Cerrar sesión</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+      </ion-content>
+
+      <ion-footer class="ion-no-border">
+        <div class="menu-usuario">
+          <ion-icon name="person-circle-outline"></ion-icon>
+          <div>
+            <strong>Administrador</strong>
+            <span>Prototipo académico</span>
+          </div>
+        </div>
+      </ion-footer>
+    </ion-menu>
+
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>
