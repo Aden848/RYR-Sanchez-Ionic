@@ -14,3 +14,8 @@ if (!window.matchMedia) {
       dispatchEvent: () => false,
     }) as MediaQueryList;
 }
+
+// Fix for TypeError: i.scrollTo is not a function in JSDOM
+if (typeof HTMLElement.prototype.scrollTo !== 'function') {
+  HTMLElement.prototype.scrollTo = () => {};
+}
